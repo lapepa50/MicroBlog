@@ -1,0 +1,65 @@
+﻿@page
+@model MicroBlog.Pages.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<html>
+<body>
+    @{
+        if (Request.Method == "POST")
+        {
+            Random random = new Random();
+
+            Post post = new Post
+            {
+                ID = random.Next(1, 1000000),
+                Title = Request.Form["Title"].ToString(),
+                Body = Request.Form["Body"].ToString(),
+                CreatedUtc = DateTime.UtcNow
+            };
+
+            string filePath = System.IO.Directory.GetCurrentDirectory() + @"\data\posts.json";
+
+            List<Post> posts = [];
+
+            if (System.IO.File.Exists(filePath))
+            {
+                string existingJson = System.IO.File.ReadAllText(filePath);
+
+                if (!string.IsNullOrWhiteSpace(existingJson))
+                {
+                    posts = System.Text.Json.JsonSerializer.Deserialize<List<Post>>(existingJson) ?? [];
+                }
+            }
+
+            posts.Add(post);
+
+            string json = System.Text.Json.JsonSerializer.Serialize(
+                posts,
+                new System.Text.Json.JsonSerializerOptions
+                {
+                    WriteIndented = true
+                });
+
+            System.IO.File.WriteAllText(filePath, json);
+            Response.Redirect("/Index");
+        }
+        else
+        {
+            <p>New Post</p>
+            <form method="post">
+                Title:<br />
+                <input asp-for="Title" class="form-control" /><br />
+                <span asp-validation-for="Title" class="text-danger"></span>
+
+                Body:<br />
+                <input asp-for="Body" class="form-control" /><br />
+                <span asp-validation-for="Body" class="text-danger"></span>
+
+                <input type="submit" value="Post!" class="submit" />
+            </form>
+        }
+    }
+</body>
+</html>

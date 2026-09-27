@@ -1,0 +1,14 @@
+﻿@model List<MicroBlog.Pages.Post>
+
+<div class="post-card">
+    @foreach (var post in Model)
+    {
+        <div class="post">
+            <h2><a asp-page="/Details" asp-route-id="@post.ID">@post.Title</a></h2>
+            <p>@post.Body</p>
+            <p>Posted: @post.CreatedUtc.ToString("yyyy-MM-dd HH:mm:ss")</p>
+        </div>
+    }   
+@{
+
+}

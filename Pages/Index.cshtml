@@ -1,0 +1,17 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<style>
+    p1 {
+        font-size: 500%;
+        font-family: 'Comic Sans MS';
+    }
+</style>
+<html>
+  <body>
+    <p1>Posts</p1>
+    <partial name="_PostCard" model="Model.Posts" />
+  </body>
+</html>

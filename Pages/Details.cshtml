@@ -1,0 +1,28 @@
+﻿@page
+@model MicroBlog.Pages.DetailsModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<html>
+<body>
+        <style>
+                p {
+                    font-size: 150%;
+                    font-family: 'Comic Sans MS'
+                }
+        </style>
+    @{
+        if (Model.Post == null)
+        {
+            <p>Post not found.</p>
+        }
+        else
+        {
+            <h1>@Model.Post.Title</h1>
+            <p>@Model.Post.Body</p>
+            <p>Posted: @Model.Post.CreatedUtc.ToString("yyyy-MM-dd HH:mm:ss")</p>
+        }
+    }
+</body>
+</html>
